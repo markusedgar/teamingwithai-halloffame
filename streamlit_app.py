@@ -3,7 +3,10 @@ import dropbox
 import tempfile
 from PIL import Image
 import io
-# Create black background
+
+# Move st.set_page_config() to the top
+st.set_page_config(page_title="Image Slideshow App", page_icon="🎈")
+
 # Create black background
 st.markdown(
     """
@@ -15,8 +18,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-st.set_page_config(page_title="Image Slideshow App", page_icon="🎈")
 
 # Dropbox setup
 DROPBOX_ACCESS_TOKEN = st.secrets["DROPBOX_ACCESS_TOKEN"]
