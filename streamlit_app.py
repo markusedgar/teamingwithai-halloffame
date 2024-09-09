@@ -30,15 +30,25 @@ def get_images_from_dropbox():
 image_files = get_images_from_dropbox()
 
 if image_files:
-    # Create a selectbox for image selection
-    selected_image = st.selectbox("Select an image:", [file.name for file in image_files])
-    
-    # Display the selected image
-    if selected_image:
-        selected_file = next(file for file in image_files if file.name == selected_image)
-        _, response = dbx.files_download(selected_file.path_display)
+    # Create a container for the slideshow
+    slideshow_container = st.empty()
+
+    # Function to display an image
+    def display_image(file):
+        _, response = dbx.files_download(file.path_display)
         image = Image.open(io.BytesIO(response.content))
-        st.image(image, caption=selected_image, use_column_width=True)
+        slideshow_container.image(image, caption=file.name, use_column_width=True)
+
+    # Automatically rotate through images
+    import time
+    while True:
+        for file in image_files:
+            display_image(file)
+            time.sleep(5)  # Display each image for 5 seconds
+        
+        # Check if the app has been stopped
+        if not st.runtime.exists():
+            break
 else:
     st.write("No images found in the specified Dropbox folder.")
 
