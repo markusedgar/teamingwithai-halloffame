@@ -56,7 +56,30 @@ if image_files:
     import time
     while True:
         for file in image_files:
-            display_image(file)
+            # Create a full-viewport container
+            with st.container():
+                st.markdown(
+                    """
+                    <style>
+                    .fullscreen {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100vw;
+                        height: 100vh;
+                        object-fit: contain;
+                        z-index: 9999;
+                    }
+                    </style>
+                    """,
+                    unsafe_allow_html=True
+                )
+                
+                # Display the image in fullscreen
+                _, response = dbx.files_download(file.path_display)
+                image = Image.open(io.BytesIO(response.content))
+                st.image(image, caption=file.name, use_column_width=True, output_format="PNG", clamp=True)
+                st.markdown(f'<img src="data:image/png;base64,{base64.b64encode(response.content).decode()}" class="fullscreen">', unsafe_allow_html=True)
             time.sleep(5)  # Display each image for 5 seconds
         
         # Check if the app has been stopped
