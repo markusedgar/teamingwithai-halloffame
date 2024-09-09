@@ -86,9 +86,10 @@ if image_files:
         # Check if the app has been stopped
         if not st.runtime.exists():
             break
+        
+        # Reload images after one complete slideshow
+        image_files = get_images_from_dropbox()
 else:
     st.write("No images found in the specified Dropbox folder.")
 
-st.write(
-    "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
-)
+
