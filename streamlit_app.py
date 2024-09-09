@@ -18,9 +18,13 @@ def get_images_from_dropbox():
         files = dbx.files_list_folder(DROPBOX_FOLDER_PATH).entries
         image_files = [file for file in files if file.name.lower().endswith(('.png', '.jpg', '.jpeg'))]
         return image_files
+    except dropbox.exceptions.AuthError as e:
+        st.error(f"Authentication error: {e}")
+    except dropbox.exceptions.ApiError as e:
+        st.error(f"API error: {e}")
     except Exception as e:
-        st.error(f"Error accessing Dropbox: {e}")
-        return []
+        st.error(f"Unexpected error: {e}")
+    return []
 
 # Get images
 image_files = get_images_from_dropbox()
