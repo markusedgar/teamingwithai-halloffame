@@ -1,3 +1,4 @@
 streamlit
 dropbox
 Pillow
+base64

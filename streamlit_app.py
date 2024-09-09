@@ -3,6 +3,7 @@ import dropbox
 import tempfile
 from PIL import Image
 import io
+import base64  # Add this import
 
 # Move st.set_page_config() to the top
 st.set_page_config(page_title="Image Slideshow App", page_icon="🎈")
